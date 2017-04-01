@@ -81,6 +81,7 @@ create table items (
 
 create table buyitems (
 	itemid int unsigned not null,
+	userid int unsigned not null,
 	quantity int not null
 )engine=innodb;
 
@@ -88,6 +89,13 @@ alter table buyitems
 	add constraint fk_items0
 		foreign key buyitems (itemid)
 			references items (id)
+				on update no action
+				on delete cascade;
+
+alter table buyitems
+	add constraint fk_users3
+		foreign key buyitems (userid)
+			references users (id)
 				on update no action
 				on delete cascade;
 
@@ -174,7 +182,7 @@ create function generateActivationToken(pemail varchar(50)) returns tinyint(2)
 			begin
 				declare uid int unsigned default(select id from users where email=pemail);
 
-				if not exists(select userid from accountactivation where userid=uid) then
+				if not exists(select userid from accountactivation where userid=uid and expired=false) then
 					begin
 						declare tmptoken char(32) default(select md5(concat(uid, uid+rand(), curdate())));
 						insert into accountactivation(userid, token) values(uid, tmptoken);
@@ -210,5 +218,45 @@ create function activateAccount(ptoken char(32)) returns tinyint(2)
 		return flag;
 	end;//
 
+create function generateRecoveryToken(remail varchar(50)) returns tinyint(2)
+	begin
+		declare flag tinyint(2) default(0);
+
+		if exists (select id from users where email=remail limit 1) then
+			begin
+				declare uid int unsigned default(select id from users where email=remail);
+
+				if not exists(select userid from accountrecovery where userid=uid and expired=false) then
+					begin
+						declare tmptoken char(32) default(select md5(concat(uid, uid+rand(), curdate())));
+						insert into accountrecovery(userid, token) values(uid, tmptoken);
+						set flag = 2;
+					end;
+				else
+					set flag = 1;
+				end if;
+			end; 
+		end if;
+
+		return flag;
+	end;//
+
+create function recoverAccount(rtoken char(32), rpass char(32)) returns tinyint(2)
+	begin
+		declare flag tinyint(2) default(0);
+
+		if exists (select userid from accountrecovery where token=rtoken and expired=false) then
+			begin
+				declare uid int unsigned default(select userid from accountrecovery where token=rtoken and expired=false);
+				update users set passwd=rpass where id=uid;
+				update accountrecovery set expired=true where token=rtoken and userid=uid;
+				set flag=2;
+			end;
+		elseif exists (select userid from accountrecovery where token=rtoken and expired=true) then
+			set flag=1;
+		end if;
+
+		return flag;
+	end;//
 
 delimiter ;
