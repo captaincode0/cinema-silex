@@ -1,0 +1,11 @@
+{
+	"name": "CinemaApp",
+	"version": "0.0.1",
+	"require": {
+		"twig/twig": "^1.0",
+		"silex/silex": "^1.3",
+		"monolog/monolog": "^1.14",
+		"php": "^5.6.0",
+		"doctrine/dbal": "~2.2"
+	}
+}
