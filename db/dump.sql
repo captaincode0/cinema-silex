@@ -11,3 +11,5 @@ insert into movieschedule values(1, "16:30", "19:00", "mon"),
 	(1, "12:00", "14:30", "thu"), (2, "18:00", "21:00", "thur"), (2, "16:00", "19:00", "fry");
 
 insert into movieschedule select id, "16:30", "19:30", "wed" from movies;
+
+insert into tickets values(null, 1, 1, curdate());
