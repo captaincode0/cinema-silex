@@ -1,4 +1,5 @@
-create cinemadb;
+drop database if exists cinemadb;
+create database cinemadb;
 use cinemadb;
 
 /**
