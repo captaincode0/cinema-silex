@@ -1,0 +1,9 @@
+#General Options
+Options -Indexes
+Options -MultiViews
+
+#Rewrite rules, don't allow FallbackResource
+RewriteEngine On
+RewriteBase /web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
