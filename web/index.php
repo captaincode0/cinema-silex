@@ -1,10 +1,16 @@
 <?php
 	error_reporting(E_ALL);
 
-	require_once __dir__."/../vendor/autoload.php";
+	define("ROOT_DIR", __dir__."/../");
 
-	$app = require __dir__."/../src/app.php";
+	require_once ROOT_DIR."vendor/autoload.php";
 
-	require __dir__."/../src/mount-controllers.php";
+	$app = require ROOT_DIR."src/app.php";
+
+	require ROOT_DIR."src/kernel/entities/EntityLoader.php";
+	require ROOT_DIR."src/kernel/controllers/ControllerLoader.php";
+	require ROOT_DIR."src/kernel/exception/ExceptionLoader.php";
+	require ROOT_DIR."src/kernel/repositories/RepositoryLoader.php";
+	require ROOT_DIR."src/mount-controllers.php";
 
 	$app->run();

@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+{% block meta %}
+	<meta charset="utf-8">
+	<meta name="author" content="captaincode0,ahm7777">
+{% endblock %}
+{% block libs %}
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: black;
+		}
+
+		form {
+			display: inline-block;
+			margin: 50px auto 0 auto;
+			position: relative;
+		}
+
+		form input {
+			margin-bottom: 15px;
+			font-size: 14px;
+			padding: 0.3em;
+		}
+
+		form button[type="submit"]{
+			position: relative;
+			display: block;
+			margin: 0 auto;
+			background-color: white;
+			padding: 0.4em 0.5em;
+			font-size: 15px;
+			border-color: none;
+			border-radius: 5px;
+			outline: 0;
+		}
+
+		form button[type="submit"]:hover {
+			outline: 2;
+			background-color: red;
+			border-color: 1px solid green;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<form method="post" action="auth/login">
+		<div>
+			<input type="email" name="email">
+		</div>
+		<div>
+			<input type="password" name="pass">
+		</div>
+		<div>
+			<button type="submit">Iniciar sesión</button>
+		</div>
+	</form>
+{% endblock %}

@@ -76,7 +76,7 @@ alter table movieschedule
 create table items (
 	id int unsigned not null primary key auto_increment,
 	name varchar(60) not null,
-	price float not null
+	price float(5,2) not null
 )engine=innodb;
 
 create table buyitems (
@@ -133,11 +133,10 @@ create trigger trgBITickets before insert on tickets
 for each row
 	begin
 		declare new_ticket_id char(16) default(select reverse(replace(replace(replace(now(), "-", ""), ":", ""), " ", "")));
+		set new_ticket_id = (select concat(new.userid, new_ticket_id ,new.movieid));
 		set new_ticket_id = (select substring(new_ticket_id, 1, 16));
-		set new.id = (select concat(new.userid, new_ticket_id ,new.movieid));
+		set new.id = new_ticket_id;
 	end;//
-
-
 
 /**
  * Datatypes
@@ -260,3 +259,25 @@ create function recoverAccount(rtoken char(32), rpass char(32)) returns tinyint(
 	end;//
 
 delimiter ;
+
+/**
+ * GROUP OPERATIONS
+ * 		MAX
+ * 		MIN
+ * 		COUNT
+ * 		IN
+ * 		NOT IN
+ * 		EXISTS
+ * 		NOT EXISTS
+ */
+
+/**
+ * vw<action><entity>
+ */
+ create view vwShowNumberOfTicketsBuyed as (
+ 	select users.id as userid, count(tickets.id) as ticketsbuyed
+ 		from users
+ 			left join tickets
+ 				on tickets.userid = users.id
+ 			group by users.id
+ );

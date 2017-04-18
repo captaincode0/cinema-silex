@@ -1,6 +1,7 @@
 use cinemadb;
 
 insert into users values(null, "developerdiego0@gmail.com", "diego", md5("myuser890Az"), 1, default);
+insert into users values(null, "captaincode0@protonmail.com", "captaincode0", md5("128997"),1, default);
 
 
 insert into movies values(null, "X-Men Apocalypse", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias assumenda non.", 1), (null, "Avengers Ultron Age", "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis velit, doloremque.", 2);
@@ -13,3 +14,5 @@ insert into movieschedule values(1, "16:30", "19:00", "mon"),
 insert into movieschedule select id, "16:30", "19:30", "wed" from movies;
 
 insert into tickets values(null, 1, 1, curdate());
+
+insert into buyitems values(1, 1, 4),(1, 2, 3),(2,1,2),(2,2,1);
